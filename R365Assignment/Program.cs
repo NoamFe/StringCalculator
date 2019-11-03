@@ -5,7 +5,7 @@ namespace R365Assignment
 {  
     class Program
     {
-        const string message = "Please maximum of 2 numbers using a comma delimiter or enter exit to exit";
+        const string message = "Please input numbers using a comma delimiter or enter exit to exit";
         static void Main(string[] args)
         {
            

@@ -4,41 +4,38 @@ namespace R365Assignment
     public class InputParser : IInputParser
     {
         private readonly char[] Delimiters;
-        private readonly int MaxSize;
-
+       
         public InputParser(IConfiguration configuration)
         {
-            Delimiters = configuration.Delimiters;
-            MaxSize = configuration.MaxSizeInput;
+            Delimiters = configuration.Delimiters; 
         }
 
         public decimal[] Parse(string input)
         {
-            decimal[] response = InitResponseObject();
             if (string.IsNullOrEmpty(input))
-                return response;
+                return new decimal[] { 0 };
 
-            var values = input.Split(Delimiters);
+            var values = input.Split(Delimiters); 
 
-            var i = 0;
+            decimal[] response = InitResponseObject(values.Length);
+
+            int i = 0;
             foreach (var item in values)
             {
                 var canConvert = decimal.TryParse(item, out var number);
-                if (canConvert == true)
+                if (canConvert)
                 {
-                    response[i] = number;
-                    i++;
-                    if (i == MaxSize)
-                        return response;
+                    response[i] = number;                   
                 }
+                i++;
             }
             return response;
         }
 
-        private decimal[] InitResponseObject()
+        private decimal[] InitResponseObject(int length)
         {
-            var response = new decimal[MaxSize];
-            for (int i = 0; i < MaxSize; i++)
+            var response = new decimal[length];
+            for (int i = 0; i < length; i++)
             {
                 response[i] = 0;
             }

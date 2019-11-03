@@ -11,3 +11,4 @@ C:\Users\2207762\source\repos\R365\R365Assignment\bin\Debug\netcoreapp3.0\Micros
 C:\Users\2207762\source\repos\R365\R365Assignment\obj\Debug\netcoreapp3.0\R365Assignment.csproj.CopyComplete
 C:\Users\2207762\source\repos\R365\R365Assignment\obj\Debug\netcoreapp3.0\R365Assignment.dll
 C:\Users\2207762\source\repos\R365\R365Assignment\obj\Debug\netcoreapp3.0\R365Assignment.pdb
+C:\Users\2207762\source\repos\R365\R365Assignment\obj\Debug\netcoreapp3.0\R365Assignment.csprojAssemblyReference.cache
