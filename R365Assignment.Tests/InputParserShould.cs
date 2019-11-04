@@ -10,8 +10,8 @@ namespace R365Assignment.Tests
         public InputParserShould()
         {
             var configuration = A.Fake<IConfiguration>();
-
-            A.CallTo(() => configuration.Delimiters).Returns(new char[] { ',' });
+             
+            A.CallTo(() => configuration.Delimiters).Returns(new string[] { ",", @"\n" });
 
             parser = new InputParser(configuration);
         }
@@ -66,5 +66,18 @@ namespace R365Assignment.Tests
             numbers.Length.ShouldBe(1);
             numbers[0].ShouldBe(0); 
         }
+
+        [Theory]
+        [AutoFill]
+        public void ReturnAllNumbers_WhenCallWithMultipleDelimeters(decimal number1, decimal number2, decimal number3)
+        {
+            var numbers = parser.Parse($@"{number1},aa,{number2}\n{number3}");
+            numbers.Length.ShouldBe(4);
+            numbers[0].ShouldBe(number1);
+            numbers[1].ShouldBe(0);
+            numbers[2].ShouldBe(number2);
+            numbers[3].ShouldBe(number3);
+        }
+
     }
 }

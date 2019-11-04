@@ -3,7 +3,7 @@ namespace R365Assignment
 { 
     public class InputParser : IInputParser
     {
-        private readonly char[] Delimiters;
+        private readonly string[] Delimiters;
        
         public InputParser(IConfiguration configuration)
         {
@@ -14,21 +14,20 @@ namespace R365Assignment
         {
             if (string.IsNullOrEmpty(input))
                 return new decimal[] { 0 };
-
-            var values = input.Split(Delimiters); 
+             
+            var values = input.Split(Delimiters, System.StringSplitOptions.None);
 
             decimal[] response = InitResponseObject(values.Length);
 
-            int i = 0;
-            foreach (var item in values)
+            for (int i = 0; i < values.Length; i++)
             {
-                var canConvert = decimal.TryParse(item, out var number);
+                var canConvert = decimal.TryParse(values[i], out var number);
                 if (canConvert)
                 {
-                    response[i] = number;                   
+                    response[i] = number;
                 }
-                i++;
-            }
+            } 
+
             return response;
         }
 
