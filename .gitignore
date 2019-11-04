@@ -10,3 +10,5 @@
 *.ide-wal
 
 *.cache
+
+*.ide

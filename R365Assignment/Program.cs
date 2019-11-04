@@ -20,8 +20,16 @@ namespace R365Assignment
             var input = Console.ReadLine();
             while (input != "exit")
             {
-                var response =  calculatorClient.Calculate(input);
-                Console.WriteLine($"Total: {response}\n");
+                try
+                {
+                    var response = calculatorClient.Calculate(input);
+                    Console.WriteLine($"Total: {response}\n");                 
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
                 Console.WriteLine(message);
                 input = Console.ReadLine();
             }
@@ -34,6 +42,7 @@ namespace R365Assignment
                             .AddScoped<ICalculator, Calculator>()
                             .AddScoped<ICalculatorClient, CalculatorClient>()
                             .AddScoped<IConfiguration, Configuration>()
+                            .AddScoped<IInputValidator, InputValidator>()
                             .BuildServiceProvider();
         }
     }
