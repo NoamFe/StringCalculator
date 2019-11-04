@@ -24,13 +24,26 @@ namespace R365Assignment.Tests
 
         [Theory]
         [AutoFill]
-        public void ReturnTwoNumbers_WhenCallWith2Numbers(string input, ArgumentException argumentException)
+        public void ThrowException_WhenValidatorThrowsException(string input, ArgumentException argumentException)
         {
             A.CallTo(() => _inputValidator.Validate(A<decimal[]>.Ignored)).Throws(argumentException);
 
             var exception = Should.Throw<ArgumentException>(() =>_calculatorClient.Calculate(input));
 
-            exception.ShouldBe(argumentException);
+            exception.ShouldBe(argumentException);            
+        }
+
+        [Theory]
+        [AutoFill]
+        public void CallCalculatorWithValidNumber_WhenValidatorReturnsValidNumbers(string input)
+        {
+            var numbers = new decimal[] { 1, 0, 5 };
+            A.CallTo(() => _inputValidator.Validate(A<decimal[]>.Ignored)).Returns(numbers);
+
+            _calculatorClient.Calculate(input);
+
+            A.CallTo(() => _calculator.Add(numbers)).MustHaveHappenedOnceExactly();
+
             
         }
 

@@ -3,6 +3,8 @@
     public interface IConfiguration
     {
         string[] Delimiters { get; }
+
+        decimal MaxNumver { get; }
     }
 }
  

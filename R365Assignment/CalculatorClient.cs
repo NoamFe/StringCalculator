@@ -18,9 +18,9 @@ namespace R365Assignment
         {
             var values = _parser.Parse(input);
 
-            _validator.Validate(values);
+            var validNumbers = _validator.Validate(values);
 
-            var response = _calculator.Add(values);
+            var response = _calculator.Add(validNumbers);
 
             return response.ToString();
         }

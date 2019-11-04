@@ -10,14 +10,27 @@ namespace R365Assignment.Tests
         IInputValidator _validator;
         public InputValidatorShould()
         {
-            _validator = new InputValidator();
+            var configuration = A.Fake<IConfiguration>();
+
+            A.CallTo(() => configuration.MaxNumver).Returns(1000);
+
+            _validator = new InputValidator(configuration);
         }
 
         [Fact]
-        public void ReturnTrue_WhenCalledWithNonNegativeNumbers()
+        public void ReturnAllValidNumbers_WhenCalledWithNonNegativeNumbers()
         {
-            var response = _validator.Validate(new decimal[] { 100, 0, 200, 4, (decimal)0.1, (decimal)1.1, 15});
-            response.ShouldBeTrue();
+            var response = _validator.Validate(new decimal[] { 100, 0, 200, 4, (decimal)0.1, (decimal)1.1,1002, 15});
+            response.Length.ShouldBe(8);
+
+            response[0].ShouldBe(100);
+            response[1].ShouldBe(0);
+            response[2].ShouldBe(200);
+            response[3].ShouldBe(4);
+            response[4].ShouldBe((decimal)0.1);
+            response[5].ShouldBe((decimal)1.1);
+            response[6].ShouldBe(0);
+            response[7].ShouldBe(15);
         }
 
 

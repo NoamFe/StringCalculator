@@ -2,6 +2,6 @@
 {
     public interface IInputValidator
     {
-        bool Validate(decimal[] input);
+        decimal[] Validate(decimal[] input);
     }
 }
