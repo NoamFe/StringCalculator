@@ -11,14 +11,16 @@ namespace R365Assignment.Tests
         ICalculator _calculator;
         IInputParser _inputParser;
         IInputValidator _inputValidator;
+        IOperatorProvider _operatorProvider;
 
         public CalculatorClientShould()
         {
             _calculator = A.Fake<ICalculator>();
             _inputParser = A.Fake<IInputParser>();
             _inputValidator = A.Fake<IInputValidator>();
-
-            _calculatorClient = new CalculatorClient(_calculator, _inputParser, _inputValidator);
+            _operatorProvider = A.Fake<IOperatorProvider>();
+            
+            _calculatorClient = new CalculatorClient(_calculator, _inputParser, _inputValidator, _operatorProvider);
         }
 
 
@@ -28,7 +30,7 @@ namespace R365Assignment.Tests
         {
             A.CallTo(() => _inputValidator.Validate(A<decimal[]>.Ignored)).Throws(argumentException);
 
-            var exception = Should.Throw<ArgumentException>(() =>_calculatorClient.Calculate(input));
+            var exception = Should.Throw<ArgumentException>(() =>_calculatorClient.Calculate(input, Operation.Add));
 
             exception.ShouldBe(argumentException);            
         }
@@ -40,9 +42,10 @@ namespace R365Assignment.Tests
             var numbers = new decimal[] { 1, 0, 5 };
             A.CallTo(() => _inputValidator.Validate(A<decimal[]>.Ignored)).Returns(numbers);
 
-            _calculatorClient.Calculate(input);
+            _calculatorClient.Calculate(input, Operation.Add);
 
-            A.CallTo(() => _calculator.Add(numbers)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _calculator.Run(A<Func<decimal, decimal, decimal>>.Ignored , numbers))
+                .MustHaveHappenedOnceExactly();
 
             
         }

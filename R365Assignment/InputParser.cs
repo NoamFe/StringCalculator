@@ -7,13 +7,13 @@ namespace R365Assignment
 {  
     public class InputParser : IInputParser
     {
-        private List<string> Delimiters;
+        private List<string> InitDelimiters;
         private readonly ICustomDelimiterParser _customDelimiterParser;
 
         public InputParser(IConfiguration configuration, ICustomDelimiterParser customDelimiterParser)
         {
-            Delimiters = new List<string> {};
-            Delimiters.AddRange(configuration.Delimiters);
+            InitDelimiters = new List<string> {};
+            InitDelimiters.AddRange(configuration.Delimiters);
 
             _customDelimiterParser = customDelimiterParser;
         }
@@ -22,24 +22,29 @@ namespace R365Assignment
         {
             if (string.IsNullOrEmpty(input))
                 return new decimal[] { 0 };
-            
+
+            var delimiters = new List<string> { };
+
             if (input.Length > 1 && input.Substring(0, 2).Equals(@"//"))
-            { 
-                var delimiters = _customDelimiterParser.Parse(ref input);
-                Delimiters.AddRange(delimiters);               
+            {                
+                delimiters.AddRange(_customDelimiterParser.Parse(ref input));               
             }
-            var values = input.Split(Delimiters.ToArray(), System.StringSplitOptions.None);
+            delimiters.AddRange(InitDelimiters);
+            var values = input.Split(delimiters.ToArray(), System.StringSplitOptions.None)
+               .Where(e => !string.IsNullOrEmpty(e)).ToList();
 
-            decimal[] response = InitResponseObject(values.Length);
+            decimal[] response = InitResponseObject(values.Count);
 
-            for (int i = 0; i < values.Length; i++)
+            for (int i = 0; i < values.Count; i++)
             {
                 var canConvert = decimal.TryParse(values[i], out var number);
                 if (canConvert)
                 {
                     response[i] = number;
                 }
-            } 
+            }
+
+            delimiters = new List<string> { };
 
             return response;
         }

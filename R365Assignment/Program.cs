@@ -7,6 +7,10 @@ namespace R365Assignment
     class Program
     {
         const string message = "Please input numbers using a comma delimiter or enter exit to exit";
+
+        const string typeOfOperationmessage = "Please select operation\n " +
+            "press s for subtraction, m for multiplication, d for division or nothing for add";
+
         static void Main(string[] args)
         {
             Console.CancelKeyPress += (sender, eventArgs) => {
@@ -33,8 +37,16 @@ namespace R365Assignment
             {
                 try
                 {
-                    var response = calculatorClient.Calculate(input);
-                    Console.WriteLine($"Total: {response}\n");                 
+                    Console.WriteLine(typeOfOperationmessage);
+                    readlineValue = Console.ReadLine();
+                    if (readlineValue == null)
+                        return;
+                    var operatorInput = Regex.Unescape(readlineValue);
+
+                    var operation = GetOperator(operatorInput);
+
+                    var response = calculatorClient.Calculate(input, operation);
+                    Console.WriteLine($"Total: {response}\n");
                 }
                 catch (ArgumentException ex)
                 {
@@ -50,9 +62,21 @@ namespace R365Assignment
             }
         }
 
+        private static Operation GetOperator(string operatorInput)
+        {
+            if (operatorInput.Equals("s"))
+                return Operation.Subtract;
+            if (operatorInput.Equals("m"))
+                return Operation.Multiply;
+            if (operatorInput.Equals("d"))
+                return Operation.Divide;
+            return Operation.Add; 
+        }
+
         private static ServiceProvider ConfigureServices()
         {
             return new ServiceCollection()
+                            .AddScoped<IOperatorProvider, OperatorProvider>()                
                             .AddScoped<ICustomDelimiterParser, CustomDelimiterParser>()
                             .AddScoped<IInputParser, InputParser>()
                             .AddScoped<ICalculator, Calculator>()

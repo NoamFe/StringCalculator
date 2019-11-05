@@ -1,20 +1,22 @@
-﻿
+﻿using System;
+using System.Linq; 
+
 namespace R365Assignment
 {
     public class Calculator : ICalculator
-    {
-        public decimal Add(decimal[] input)
-        {
-            decimal total = 0;
+    { 
+        public decimal Run(Func<decimal,decimal,decimal> calculatorOperation, decimal[] input)
+        { 
             if (input == null)
-                return total;
-
-            foreach (var item in input)
+                return 0;
+          
+            decimal accumulator = input[0];
+            foreach (var n in input.Skip(1))
             {
-                total += item;
+                accumulator = calculatorOperation(accumulator, n);
             }
-
-            return total;
+            return accumulator;
         }
+         
     }
 }

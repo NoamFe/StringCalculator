@@ -2,6 +2,6 @@
 {
     public interface ICalculatorClient
     {
-        string Calculate(string input);
+        string Calculate(string input, Operation operation);
     }
 }
