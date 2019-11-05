@@ -9,7 +9,13 @@ namespace R365Assignment
         const string message = "Please input numbers using a comma delimiter or enter exit to exit";
         static void Main(string[] args)
         {
-           
+            Console.CancelKeyPress += (sender, eventArgs) => {
+                Console.WriteLine("Ctrl+C pressed");
+                Console.ReadLine();
+                eventArgs.Cancel = true;
+                 
+            };
+
             ServiceProvider serviceProvider = ConfigureServices();
 
             var calculatorClient = serviceProvider.GetService<ICalculatorClient>();
@@ -18,7 +24,10 @@ namespace R365Assignment
             Console.WriteLine("Welcome to the amazing calculator\n ");
             Console.WriteLine(message);
 
-            var input = Regex.Unescape(Console.ReadLine());
+            var readlineValue = Console.ReadLine();
+            if (readlineValue == null)
+                return;
+            var input = Regex.Unescape(readlineValue);
           
             while (input != "exit")
             {
@@ -33,7 +42,11 @@ namespace R365Assignment
                 }
 
                 Console.WriteLine(message);
-                input = Regex.Unescape(Console.ReadLine());
+
+                readlineValue = Console.ReadLine();
+                if (readlineValue == null)
+                    return;
+                input = Regex.Unescape(readlineValue);
             }
         }
 
