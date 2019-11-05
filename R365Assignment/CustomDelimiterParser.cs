@@ -7,7 +7,8 @@ namespace R365Assignment
     {
         public List<string> Parse(ref string input)
         {
-            var regexPattern = @"//(?<delimiter>(\D))\n(?<numbers>(.*))";
+            var newline = "\n";
+            var regexPattern = $"//((?<delimiter>(\\D))|\\[(?<delimiter>[^\\]]*)\\]){newline}(?<numbers>(.*))";
             var regex = new Regex(regexPattern, RegexOptions.ExplicitCapture);
 
             if (regex.IsMatch(input))
