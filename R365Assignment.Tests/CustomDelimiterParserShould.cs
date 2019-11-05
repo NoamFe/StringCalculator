@@ -31,6 +31,19 @@ namespace R365Assignment.Tests
             delimiters.Count.ShouldBe(1);
             delimiters[0].ShouldBe("***");
         }
-        
+
+
+        [Fact]
+        public void ReturnDelimitersAndModifyInput_WhenCalledWithMultiDelimiterAndRegexMatches()
+        {
+            var parser = new CustomDelimiterParser();
+            var input = @"//[*][!!][r9r]\n11r9r22*hh*33!!44";
+            input = Regex.Unescape(input);
+
+            var delimiters = parser.Parse(ref input);
+            input.ShouldBe("11r9r22*hh*33!!44");
+            delimiters.Count.ShouldBe(6); 
+        }
+
     }
 }
