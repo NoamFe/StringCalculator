@@ -42,7 +42,10 @@ namespace R365Assignment.Tests
 
             var delimiters = parser.Parse(ref input);
             input.ShouldBe("11r9r22*hh*33!!44");
-            delimiters.Count.ShouldBe(6); 
+            delimiters.Count.ShouldBe(3);
+            delimiters[0].ShouldBe("*");
+            delimiters[1].ShouldBe("!!");
+            delimiters[2].ShouldBe("r9r");
         }
 
     }

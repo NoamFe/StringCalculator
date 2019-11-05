@@ -1,6 +1,10 @@
 ﻿using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace R365Assignment
 {
@@ -16,10 +20,26 @@ namespace R365Assignment
             if (regex.IsMatch(input))
             {
                 var match = regex.Match(input);
-                input = match.Groups["numbers"].Value;
-                
-                var delimiters =  match.Groups["delimiter"].Captures.Select(m => m.Value).ToList();
-                
+                var delimiters = new List<string>();
+
+                if (input.StartsWith("//["))
+                {
+                    var indexOfNewLine = input.IndexOf('\n');
+                    char[] internalDelimiters = { '[',']'};  
+                    foreach (var splitInput in input.Substring(3, indexOfNewLine - 3).Split(internalDelimiters))
+                    {
+                        if (splitInput.Length > 0)
+                            delimiters.Add(splitInput);
+                    }
+                    input = input.Substring(indexOfNewLine + 1);
+                }
+                else 
+                {
+                    delimiters = match.Groups["delimiter"].Captures.Select(m => m.Value).ToList();
+
+                    input = match.Groups["numbers"].Value;
+                }                
+
                 return delimiters;
             }
 

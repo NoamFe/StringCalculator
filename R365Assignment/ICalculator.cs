@@ -4,6 +4,6 @@ namespace R365Assignment
 {
     public interface ICalculator
     { 
-        decimal Run(Func<decimal, decimal, decimal> calculatorOperation, decimal[] input);
+        decimal Run(Func<decimal, decimal, decimal> calculatorOperation, decimal[] input, string operatorSymbol);
     }
 }

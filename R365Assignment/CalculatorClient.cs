@@ -23,7 +23,7 @@ namespace R365Assignment
 
             var validNumbers = _validator.Validate(values);
 
-            var response = _calculator.Run(_operatorProvider.GetByOperation(operation),validNumbers);
+            var response = _calculator.Run(_operatorProvider.GetByOperation(operation),validNumbers, _operatorProvider.GetSymbolByOperation(operation));
 
             return response.ToString();
         }

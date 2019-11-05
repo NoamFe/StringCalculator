@@ -44,7 +44,8 @@ namespace R365Assignment.Tests
 
             _calculatorClient.Calculate(input, Operation.Add);
 
-            A.CallTo(() => _calculator.Run(A<Func<decimal, decimal, decimal>>.Ignored , numbers))
+            A.CallTo(() => _calculator.Run(A<Func<decimal, decimal, decimal>>.Ignored , numbers,
+               A<string>.Ignored))
                 .MustHaveHappenedOnceExactly();
 
             

@@ -1,6 +1,4 @@
-﻿
-using System.Text.RegularExpressions;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 
 namespace R365Assignment
@@ -29,9 +27,10 @@ namespace R365Assignment
             {                
                 delimiters.AddRange(_customDelimiterParser.Parse(ref input));               
             }
+
             delimiters.AddRange(InitDelimiters);
-            var values = input.Split(delimiters.ToArray(), System.StringSplitOptions.None)
-               .Where(e => !string.IsNullOrEmpty(e)).ToList();
+           
+            var values = input.Split(delimiters.ToArray(), System.StringSplitOptions.None).ToList();
 
             decimal[] response = InitResponseObject(values.Count);
 
