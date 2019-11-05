@@ -10,10 +10,11 @@ namespace R365Assignment.Tests
         public InputParserShould()
         {
             var configuration = A.Fake<IConfiguration>();
-             
+            var customDelimiterParser = A.Fake<ICustomDelimiterParser>();
+
             A.CallTo(() => configuration.Delimiters).Returns(new string[] { ",", @"\n" });
 
-            parser = new InputParser(configuration);
+            parser = new InputParser(configuration, customDelimiterParser);
         }
         [Theory]
         [AutoFill]

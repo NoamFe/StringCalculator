@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Text.RegularExpressions;
 
 namespace R365Assignment
 {  
@@ -17,7 +18,8 @@ namespace R365Assignment
             Console.WriteLine("Welcome to the amazing calculator\n ");
             Console.WriteLine(message);
 
-            var input = Console.ReadLine();
+            var input = Regex.Unescape(Console.ReadLine());
+          
             while (input != "exit")
             {
                 try
@@ -31,13 +33,14 @@ namespace R365Assignment
                 }
 
                 Console.WriteLine(message);
-                input = Console.ReadLine();
+                input = Regex.Unescape(Console.ReadLine());
             }
         }
 
         private static ServiceProvider ConfigureServices()
         {
             return new ServiceCollection()
+                            .AddScoped<ICustomDelimiterParser, CustomDelimiterParser>()
                             .AddScoped<IInputParser, InputParser>()
                             .AddScoped<ICalculator, Calculator>()
                             .AddScoped<ICalculatorClient, CalculatorClient>()

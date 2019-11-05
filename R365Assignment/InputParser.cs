@@ -1,21 +1,34 @@
 ﻿
+using System.Text.RegularExpressions;
+using System.Linq;
+using System.Collections.Generic;
+
 namespace R365Assignment
-{ 
+{  
     public class InputParser : IInputParser
     {
-        private readonly string[] Delimiters;
-       
-        public InputParser(IConfiguration configuration)
+        private List<string> Delimiters;
+        private readonly ICustomDelimiterParser _customDelimiterParser;
+
+        public InputParser(IConfiguration configuration, ICustomDelimiterParser customDelimiterParser)
         {
-            Delimiters = configuration.Delimiters; 
+            Delimiters = new List<string> {};
+            Delimiters.AddRange(configuration.Delimiters);
+
+            _customDelimiterParser = customDelimiterParser;
         }
 
         public decimal[] Parse(string input)
         {
             if (string.IsNullOrEmpty(input))
                 return new decimal[] { 0 };
-             
-            var values = input.Split(Delimiters, System.StringSplitOptions.None);
+            
+            if (input.Length > 1 && input.Substring(0, 2).Equals(@"//"))
+            { 
+                var delimiters = _customDelimiterParser.Parse(ref input);
+                Delimiters.AddRange(delimiters);               
+            }
+            var values = input.Split(Delimiters.ToArray(), System.StringSplitOptions.None);
 
             decimal[] response = InitResponseObject(values.Length);
 
