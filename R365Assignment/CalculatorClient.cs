@@ -16,17 +16,20 @@ namespace R365Assignment
             _validator = validator ?? throw new System.ArgumentNullException(nameof(validator));
             _operatorProvider = operatorProvider ?? throw new System.ArgumentNullException(nameof(operatorProvider));
         }
+         
 
-        public string Calculate(string input, Operation operation)
+        public string Calculate(CalculatorInput alculatorInput)
         {
-            var values = _parser.Parse(input);
+            var values = _parser.Parse(alculatorInput.Input, alculatorInput.AlternateDelimiter);
 
-            var validNumbers = _validator.Validate(values);
+            var validNumbers = _validator.Validate(values, alculatorInput.AllowNegative,alculatorInput.MaxNumber);
 
-            var response = _calculator.Run(_operatorProvider.GetByOperation(operation),validNumbers, _operatorProvider.GetSymbolByOperation(operation));
+            var response = _calculator.Run(
+                _operatorProvider.GetByOperation(alculatorInput.Operation),
+                validNumbers,
+                _operatorProvider.GetSymbolByOperation(alculatorInput.Operation));
 
             return response.ToString();
-        }
-
+        } 
     }
 }

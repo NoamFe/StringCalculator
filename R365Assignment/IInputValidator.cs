@@ -2,6 +2,6 @@
 {
     public interface IInputValidator
     {
-        decimal[] Validate(decimal[] input);
+        decimal[] Validate(decimal[] input, bool allowNegative, decimal? maxNumberAllowed = null);
     }
 }

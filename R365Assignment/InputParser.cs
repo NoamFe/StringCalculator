@@ -16,16 +16,19 @@ namespace R365Assignment
             _customDelimiterParser = customDelimiterParser;
         }
 
-        public decimal[] Parse(string input)
+        public decimal[] Parse(string input, string alternativeDelimiter)
         {
             if (string.IsNullOrEmpty(input))
                 return new decimal[] { 0 };
 
             var delimiters = new List<string> { };
 
+            if (alternativeDelimiter != null)
+                delimiters.Add(alternativeDelimiter);
+              
             if (input.Length > 1 && input.Substring(0, 2).Equals(@"//"))
             {                
-                delimiters.AddRange(_customDelimiterParser.Parse(ref input));               
+                delimiters.AddRange(_customDelimiterParser.Parse(ref input, alternativeDelimiter));               
             }
 
             delimiters.AddRange(InitDelimiters);

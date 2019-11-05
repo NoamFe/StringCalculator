@@ -2,6 +2,6 @@
 {
     public interface IInputParser
     {
-        decimal[] Parse(string input);
+        decimal[] Parse(string input, string alternativeDelimiter);
     }
 }

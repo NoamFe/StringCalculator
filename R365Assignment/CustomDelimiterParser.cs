@@ -1,18 +1,18 @@
 ﻿using System.Text.RegularExpressions;
 using System.Collections.Generic;
-using System.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
+using System.Linq; 
 
 namespace R365Assignment
 {
     public class CustomDelimiterParser : ICustomDelimiterParser
     {
-        public List<string> Parse(ref string input)
+        public List<string> Parse(ref string input, string alternativeDelimiter)
         {
-            var newline = "\n";          
+            var newline = "\n";
+
+            if (!string.IsNullOrWhiteSpace(alternativeDelimiter))
+                newline = alternativeDelimiter;
+
             var regexPattern = $"//((?<delimiter>(\\D))|\\[(?<delimiter>[^\\]]*)\\]|(\\[(?<delimiter>[^\\]])*\\])+){newline}(?<numbers>(.*))";
 
             var regex = new Regex(regexPattern, RegexOptions.ExplicitCapture);

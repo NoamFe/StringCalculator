@@ -20,7 +20,7 @@ namespace R365Assignment.Tests
         [AutoFill]
         public void ReturnTwoNumbers_WhenCallWith2Numbers(decimal number1, decimal number2)
         {
-            var numbers = parser.Parse($"{number1},{number2}");
+            var numbers = parser.Parse($"{number1},{number2}",null);
             numbers.Length.ShouldBe(2);
             numbers[0].ShouldBe(number1);
             numbers[1].ShouldBe(number2);
@@ -30,7 +30,7 @@ namespace R365Assignment.Tests
         [AutoFill]
         public void ReturnAllNumbers_WhenCallWithFewNumbers(decimal number1, decimal number2, decimal number3)
         { 
-            var numbers = parser.Parse($"{number1},aaa,{number2},{number3}");
+            var numbers = parser.Parse($"{number1},aaa,{number2},{number3}", null);
             numbers.Length.ShouldBe(4);
             numbers[0].ShouldBe(number1);
             numbers[1].ShouldBe(0);
@@ -42,7 +42,7 @@ namespace R365Assignment.Tests
         [AutoFill]
         public void ReturnTwoNumbers_WhenCallWith2InvalidChars(string invalidString1 ,string invalidString2)
         { 
-            var numbers = parser.Parse($"{invalidString1},{invalidString2}");
+            var numbers = parser.Parse($"{invalidString1},{invalidString2}", null);
             numbers.Length.ShouldBe(2);
             numbers[0].ShouldBe(0);
             numbers[1].ShouldBe(0);
@@ -52,7 +52,7 @@ namespace R365Assignment.Tests
         [AutoFill]
         public void ReturnTwoNumbers_WhenCallWith1NumberAndInvalidChars(decimal number1)
         { 
-            var numbers = parser.Parse($"{number1},aa");
+            var numbers = parser.Parse($"{number1},aa", null);
             numbers.Length.ShouldBe(2);
             numbers[0].ShouldBe(number1);
             numbers[1].ShouldBe(0);
@@ -63,7 +63,7 @@ namespace R365Assignment.Tests
         public void ReturnZeroTwoNumbers_WhenCallWithEmptyString()
         { 
 
-            var numbers = parser.Parse(null);
+            var numbers = parser.Parse(null,null);
             numbers.Length.ShouldBe(1);
             numbers[0].ShouldBe(0); 
         }
@@ -72,7 +72,7 @@ namespace R365Assignment.Tests
         [AutoFill]
         public void ReturnAllNumbers_WhenCallWithMultipleDelimeters(decimal number1, decimal number2, decimal number3)
         {
-            var numbers = parser.Parse($@"{number1},aa,{number2}\n{number3}");
+            var numbers = parser.Parse($@"{number1},aa,{number2}\n{number3}", null);
             numbers.Length.ShouldBe(4);
             numbers[0].ShouldBe(number1);
             numbers[1].ShouldBe(0);

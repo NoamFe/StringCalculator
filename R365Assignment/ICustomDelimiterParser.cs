@@ -4,6 +4,6 @@ namespace R365Assignment
 {
     public interface ICustomDelimiterParser
     {
-        List<string> Parse(ref string input);
+        List<string> Parse(ref string input, string alternativeDelimiter);
     }
 }

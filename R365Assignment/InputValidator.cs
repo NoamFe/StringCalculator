@@ -14,18 +14,24 @@ namespace R365Assignment
             MaxNumberAllowed = configuration.MaxNumver;
         }
 
-        public decimal[] Validate(decimal[] input)
+        public decimal[] Validate(decimal[] input, bool allowNegative, decimal? maxNumberAllowed = null)
         {
             var invalidNumbers = new List<decimal>();
             var validNumbers = new List<decimal>();
 
+            if (maxNumberAllowed == null)
+                maxNumberAllowed = MaxNumberAllowed;
+
             foreach (var item in input)
             {
-                if (item < 0)
+                if (!allowNegative)
                 {
-                    invalidNumbers.Add(item);
+                    if (item < 0)
+                    {
+                        invalidNumbers.Add(item);
+                    }
                 }
-                if (item <= MaxNumberAllowed)
+                if (item <= maxNumberAllowed)
                 {
                     validNumbers.Add(item);
                 }
